@@ -1,0 +1,44 @@
+
+:root{
+  --brand:#003366; --bg:#f0f2f5; --paper:#fff; --ink:#111;
+  --danger:#e74c3c; --serif:'Times New Roman', Times, serif; --ui:system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:#222;font-family:var(--ui);touch-action:manipulation;}
+.header{background:var(--brand);color:#fff;padding:16px 20px;text-align:center;font-weight:700;}
+.page{display:none;min-height:100vh;} .page.active{display:block;}
+.container{max-width:1100px;margin:18px auto;padding:0 16px;}
+.card{background:#fff;border-radius:14px;box-shadow:0 10px 25px rgba(0,0,0,.08);padding:16px;}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0;}
+button{appearance:none;border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;background:#eef2f7}
+button.primary{background:#dbeafe} button.success{background:#dcfce7} button.outline{background:#fff;border:1px solid #e5e7eb}
+button.small{padding:6px 10px;font-weight:600}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;}
+fieldset{border:1px solid #e5e7eb;border-radius:12px;padding:10px;margin:8px 0}
+legend{padding:0 6px;color:#111;font-weight:700}
+.row{display:grid;grid-template-columns:140px 1fr;gap:8px;align-items:center;margin:6px 0}
+label{color:#374151;font-size:.95rem}
+input,select{width:100%;padding:8px 10px;border:1px solid #e5e7eb;border-radius:10px;background:#fff}
+
+.item{display:grid;grid-template-columns:repeat(5,1fr) 38px;gap:8px;margin:6px 0}
+.item .del{background:#fee2e2;color:#7f1d1d;border:0;border-radius:8px}
+
+.pv-wrapper{display:flex;justify-content:center;padding: 10px 0 28px;}
+.pv-page{width:210mm;min-height:297mm;background:var(--paper);color:var(--ink);font-family:var(--serif);
+  padding:25mm 25mm 25mm 30mm;box-shadow:0 10px 30px rgba(0,0,0,.12);}
+.pv-page .line{white-space:pre-wrap}
+.pv-title{text-align:center;font-weight:bold;margin:8mm 0 3mm;text-transform:uppercase}
+.pv-block{text-align:justify;margin:2mm 0;font-size:12pt;line-height:1.35}
+.var{color:var(--danger);font-weight:600}
+
+.sticky-actions{position:sticky;bottom:0;background:#fff;border-top:1px solid #e5e7eb;padding:10px;display:flex;gap:10px;justify-content:center}
+
+@media print{
+  @page{size:A4;margin:0}
+  body{background:#fff}
+  .header,.container,.sticky-actions,#homePage{display:none!important}
+  .pv-wrapper{padding:0}
+  .pv-page{width:auto;min-height:auto;box-shadow:none;padding:20mm 20mm 20mm 30mm}
+}

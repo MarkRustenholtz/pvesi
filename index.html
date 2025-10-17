@@ -84,12 +84,18 @@ section {
 }
 section.active { display:block; }
 
+.grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:12px;
+  }
 fieldset {
   border:1px solid #d0d7de;
   border-radius:10px;
   padding:12px;
   background:#a8c7ff;
-  margin-bottom:20px;
+  
 }
 
 legend {
@@ -111,14 +117,18 @@ input, select, textarea {
   font-size:14px;
 }
 
-.row, .row3, .grid {
-  display:grid;
-  gap:10px;
-}
-.row { grid-template-columns:1fr 1fr; }
-.row3 { grid-template-columns:1fr 1fr 1fr; }
-.grid { grid-template-columns:1fr 1fr; }
+.row {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
 
+  .row3 {
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:10px;
+  }
+  
 .back-btn {
   display:inline-block;
   background:var(--brand);
@@ -228,7 +238,7 @@ input, select, textarea {
       padding:10px;
     }
   }
-	/* ✅ Correction ciblée : empêche les champs d'écriture de dépasser des cartes */
+  /* ✅ Correction ciblée : empêche les champs d'écriture de dépasser des cartes */
 fieldset input,
 fieldset select,
 fieldset textarea {
@@ -478,11 +488,13 @@ autocapitalize="off"
 <!-- SECTION OPTIONS -->
 <section id="options">
   <div class="toolbar" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+  <a href="#" class="back-btn" onclick="backHome()">⬅ Retour</a>
     <button onclick="generatePV()">🧾 Générer le PV</button>
     <button class="secondary" onclick="openPrintPreview()">🖨️ Imprimer / PDF</button>
     <button onclick="sauvegarderPV()">💾 Sauvegarder le PV</button>
     <button onclick="ouvrirMesPV()">📁 Mes PV sauvegardés</button>
     <button onclick="nouveauPV()">🆕 Nouveau PV</button>
+	 
   </div>
    <h2>Procès-verbal généré</h2>
    <div id="sheet">
@@ -497,7 +509,7 @@ DIRECTION GÉNÉRALE DE LA GENDARMERIE     NATIONALE</div>
 
       <div style="margin-top:8mm">AFFAIRE :</div>
      
-      <div style="margin-top:8mm"><span id="esi_civil_left_o">Monsieur</span> <span id="aff_nomcomplet_o">THIAM Mamadou Moustapha</span></div>
+      <div style="margin-top:8mm"><span id="esi_civil_left_o">Monsieur</span> <span id="aff_nomcomplet_o">Nom Prénom</span></div>
       <div style="margin-top:6mm">OBJET :</div>
       <div>Rapport de saisine</div>
       <div style="margin-top:6mm">SAISINE :</div>
@@ -539,8 +551,8 @@ DIRECTION GÉNÉRALE DE LA GENDARMERIE     NATIONALE</div>
       <p>— Vu la note des autorités françaises notifiant au premier Vice-président de la commission européenne son intention, à compter du 1er mai 2025 et jusqu’au 31 octobre 2025, de prolonger le rétablissement des contrôles aux frontières intérieures de la France avec la Belgique, le Luxembourg, l’Allemagne, l’Italie, l’Espagne, et la confédération Suisse, sur le fondement des articles 25 et 27 du règlement 2016/399 susvisé. —</p>
       <p>— Revêtus de nos uniformes réglementaires et insignes afférents à notre fonction et munis du gilet réfléchissant GENDARMERIE, —</p>
       
-      <p>— — À <span id="esi_hconstat_o">16 heures et 30 minutes</span>, nous constatons la présence d’un <span id="veh_type_o">autobus</span> <span id="veh_marque_o">Mercedes</span> immatriculé <span id="veh_pays_o">en Italie</span> sous le numéro <span id="veh_immat_o">GT-503-RE</span> en circulation et arrivant dans notre direction  —
-	  <p>— Faisons signe réglementairement <span id="conducteur_article_o">au</span> <span id="conducteur_label_o">conducteur</span> de stationner son véhicule correctement et en sécurité <span id="lieu_controle_o">sur le parking de l’aire de repos du péage de La Turbie</span>, afin de procéder au contrôle de l’identité des passagers du véhicule. —</p>
+      <p>— — À <span id="esi_hconstat_o">(Heure de constatation)</span>, nous constatons la présence d’un <span id="veh_type_o">(véhicule)</span> <span id="veh_marque_o">(Marque du vehicule)</span> immatriculé <span id="veh_pays_o">(pays d'immatriculation)</span> sous le numéro <span id="veh_immat_o">(immatriculation)</span> en circulation et arrivant dans notre direction  —
+	  <p>— Faisons signe réglementairement <span id="conducteur_article_o">au</span> <span id="conducteur_label_o">(conducteur)</span> de stationner son véhicule correctement et en sécurité <span id="lieu_controle_o">sur le parking de l’aire de repos du péage de La Turbie</span>, afin de procéder au contrôle de l’identité des passagers du véhicule. —</p>
       <p>— <span id="conducteur_article2_o">Le</span> <span id="conducteur_label2_o">conducteur</span> obtempère à notre demande, déclinons notre qualité et le motif de notre contrôle. —</p>
 	  <p>— Procédons au contrôle d'identité des personnes à bord du véhicule.</p>
 
@@ -554,7 +566,7 @@ DIRECTION GÉNÉRALE DE LA GENDARMERIE     NATIONALE</div>
       <p>— Il s’agit de : —</p>
 
       <p id="esi_lang_phrase_o">
-— <span id="esi_civil_o">Monsieur</span> <span id="esi_nom_o">THIAM</span> <span id="esi_prenom_o">Mamadou Moustapha</span> né<span id="esi_nee_o"></span> le <span id="esi_dnaiss_o">01/01/1992</span> à <span id="esi_lnaiss_o">DAKAR (SENEGAL)</span>, de nationalité <span id="esi_nat_o">sénégalaise</span>, de sexe <span id="esi_sexe_o">masculin</span>. <span id="langue_phrase_o">L’individu s’exprime en français approximatif.</span> <span id="identite_phrase_o">Son identité est relevée sur les pièces précitées.</span> —
+— <span id="esi_civil_o">Monsieur</span> <span id="esi_nom_o">Nom</span> <span id="esi_prenom_o">Prénom</span> né<span id="esi_nee_o"></span> le <span id="esi_dnaiss_o">(date de naissance)</span> à <span id="esi_lnaiss_o">Ville de naissance</span>, de nationalité <span id="esi_nat_o">(nationalité)</span>, de sexe <span id="esi_sexe_o">masculin</span>. <span id="langue_phrase_o">L’individu s’exprime en français approximatif.</span> <span id="identite_phrase_o">Son identité est relevée sur les pièces précitées.</span> —
 </p>
 
       <p>— Effectuons des recherches concernant cette personne auprès des fichiers de Police mis à notre disposition, à l’aide de notre tablette de service : —</p>
@@ -574,8 +586,9 @@ Transportons l’individu sans contrainte ni entraves au poste de la Police Aux 
       <p>— Présentons l’individu devant l’Officier de Police Judiciaire Territorialement Compétent de permanence du poste de la Police Aux Frontières de <span id="paf_ville_o3">Saint Louis à Menton</span> à <span id="paf_heure_o">17 heures et 10 minutes</span>. L’horaire de présentation étant différé eu égard au délai de route. —</p>
 
 		<div class="signzone">
-        <div class="signcell">L’assistant</div>
+        
         <div class="signcell">L’APJA</div>
+		<div class="signcell">L’assistant</div>
       </div>
     </div>
   </div>
@@ -1237,6 +1250,7 @@ function chargerPV(id) {
    pvCourantId = id;
   alert("✅ PV chargé pour modification");
   window.scrollTo({ top: 0, behavior: 'smooth' });
+    generatePV();
 }
 
 
@@ -1304,4 +1318,3 @@ if ('serviceWorker' in navigator) {
 </script>
 </body>
 </html>
-

@@ -253,12 +253,7 @@ fieldset textarea {
   margin-top: 8mm;      /* espace vertical sous "GENDARMERIE NATIONALE" */
   font-style: italic;
 }
-/* ✅ Espace entre "Police nationale" et "Gendarmerie nationale" */
-#sheet .col-g p br {
-  display: block;
-  margin-bottom: 3mm;  /* Ajuste ici : 2–4 mm selon ton goût */
-  content: "";
-}
+
 </style>
 </head>
 
@@ -516,6 +511,7 @@ autocapitalize="off"
       <hr style="border:none;border-top:1px solid #000;margin:3mm 0 2mm 0">
       <div class="title-left" style="white-space:pre-line">DIRECTION GENERALE
 DE LA POLICE NATIONALE
+
 DIRECTION GÉNÉRALE DE LA GENDARMERIE     NATIONALE</div>
       <div class="num-pv">NUMÉRO DE P.V. : <span id="pv_num_o"></span></div>
 
@@ -1027,11 +1023,7 @@ if (esi_sexe === 'f') {
             text-align: justify;
             line-height: 1.42;
           }
-#sheet .col-g p br {
-        display: block;
-        margin-bottom: 3mm;
-        content: "";
-      }
+
           .logo {
             width: 60mm;
             margin: 0 0 8mm 0;

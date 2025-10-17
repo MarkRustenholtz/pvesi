@@ -238,6 +238,7 @@ input, select, textarea {
       padding:10px;
     }
   }
+
   /* ✅ Correction ciblée : empêche les champs d'écriture de dépasser des cartes */
 fieldset input,
 fieldset select,
@@ -251,6 +252,12 @@ fieldset textarea {
   display: block;
   margin-top: 8mm;      /* espace vertical sous "GENDARMERIE NATIONALE" */
   font-style: italic;
+}
+/* ✅ Espace entre "Police nationale" et "Gendarmerie nationale" */
+#sheet .col-g p br {
+  display: block;
+  margin-bottom: 3mm;  /* Ajuste ici : 2–4 mm selon ton goût */
+  content: "";
 }
 </style>
 </head>
@@ -1020,6 +1027,11 @@ if (esi_sexe === 'f') {
             text-align: justify;
             line-height: 1.42;
           }
+#sheet .col-g p br {
+        display: block;
+        margin-bottom: 3mm;
+        content: "";
+      }
           .logo {
             width: 60mm;
             margin: 0 0 8mm 0;

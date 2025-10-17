@@ -228,6 +228,15 @@ input, select, textarea {
       padding:10px;
     }
   }
+	/* ✅ Correction ciblée : empêche les champs d'écriture de dépasser des cartes */
+fieldset input,
+fieldset select,
+fieldset textarea {
+  box-sizing: border-box;
+  max-width: 100%;
+  width: 100%;
+}
+
 </style>
 </head>
 
@@ -1295,3 +1304,4 @@ if ('serviceWorker' in navigator) {
 </script>
 </body>
 </html>
+

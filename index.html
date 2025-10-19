@@ -253,7 +253,10 @@ fieldset textarea {
   margin-top: 8mm;      /* espace vertical sous "GENDARMERIE NATIONALE" */
   font-style: italic;
 }
-
+#sign_col_g {
+  letter-spacing: 1px;
+  word-spacing: 20px;
+}
 </style>
 </head>
 
@@ -372,13 +375,16 @@ fieldset textarea {
             <input id="esi_hconstat" type="time" placeholder="16 heures et 30 minutes" />
           </div>
           <div>
-            <label>Véhicule</label>
-            <select id="veh_type">
-              <option>bus</option>
-              <option>train</option>
-              <option>VL</option>
-              <option>PL</option>
-            </select>
+           <label for="veh_type">Véhicule/Pieton</label>
+
+<select id="veh_type">
+  <option value="" selected disabled>— Sélectionner —</option>
+  <option value="bus">Bus</option>
+  <option value="train">Train</option>
+  <option value="VL">Véhicule léger</option>
+  <option value="PL">Poids lourd</option>
+  <option value="personne">Personne</option>
+</select>
           </div>
         </div>
 		<label>Marque du véhicule/Compagnie du train</label>
@@ -523,7 +529,7 @@ DIRECTION GÉNÉRALE DE LA GENDARMERIE     NATIONALE</div>
       <div style="margin-top:6mm">SAISINE :</div>
       <div>Interpellation d’étranger en situation irrégulière.</div>
 
-      <div style="margin-top:18mm">L’assistant           L’APJA</div>
+      <div id="sign_col_g" style="margin-top:18mm">L’assistant L’APJA</div>
     </div>
 
     <div class="col-d">
@@ -558,8 +564,8 @@ DIRECTION GÉNÉRALE DE LA GENDARMERIE     NATIONALE</div>
       <p>— Vu les articles 5 à 8, 14 et 32 de ce règlement. —</p>
       <p>— Vu la note des autorités françaises notifiant au premier Vice-président de la commission européenne son intention, à compter du 1er mai 2025 et jusqu’au 31 octobre 2025, de prolonger le rétablissement des contrôles aux frontières intérieures de la France avec la Belgique, le Luxembourg, l’Allemagne, l’Italie, l’Espagne, et la confédération Suisse, sur le fondement des articles 25 et 27 du règlement 2016/399 susvisé. —</p>
       <p>— Revêtus de nos uniformes réglementaires et insignes afférents à notre fonction et munis du gilet réfléchissant GENDARMERIE, —</p>
-      
-      <p>— — À <span id="esi_hconstat_o">(Heure de constatation)</span>, nous constatons la présence d’un <span id="veh_type_o">(véhicule)</span> <span id="veh_marque_o">(Marque du vehicule)</span> immatriculé <span id="veh_pays_o">(pays d'immatriculation)</span> sous le numéro <span id="veh_immat_o">(immatriculation)</span> en circulation et arrivant dans notre direction  —
+      <div id="texte-vehicule">
+      <p>— À <span id="esi_hconstat_o">(Heure de constatation)</span>, nous constatons la présence d’un <span id="veh_type_o">(véhicule)</span> <span id="veh_marque_o">(Marque du vehicule)</span> immatriculé <span id="veh_pays_o">(pays d'immatriculation)</span> sous le numéro <span id="veh_immat_o">(immatriculation)</span> en circulation et arrivant dans notre direction  —</p>
 	  <p>— Faisons signe réglementairement <span id="conducteur_article_o">au</span> <span id="conducteur_label_o">(conducteur)</span> de stationner son véhicule correctement et en sécurité <span id="lieu_controle_o">sur le parking de l’aire de repos du péage de La Turbie</span>, afin de procéder au contrôle de l’identité des passagers du véhicule. —</p>
       <p>— <span id="conducteur_article2_o">Le</span> <span id="conducteur_label2_o">conducteur</span> obtempère à notre demande, déclinons notre qualité et le motif de notre contrôle. —</p>
 	  <p>— Procédons au contrôle d'identité des personnes à bord du véhicule.</p>
@@ -570,16 +576,28 @@ DIRECTION GÉNÉRALE DE LA GENDARMERIE     NATIONALE</div>
 <span id="individu_phrase_o">Cet individu</span> n’étant pas en mesure de nous présenter de document d’identité ou de voyage en cours de validité,
 <span id="passager_pronom_o">ce dernier</span> n’est donc pas en règle pour voyager, circuler ou séjourner sur le territoire national français. —
 </p>
+</div>
+<!-- === TEXTE PIÉTON (neutre complet avec identification ESI) === -->
+<div id="texte-pieton" style="display:none">
 
+  <p>— À <span id="heure_pieton_o">[heure]</span>, nous constatons la présence d’un individu circulant à pied sur <span id="lieu_pieton_o">[lieu]</span> et venant dans notre direction. —</p>
+
+  <p>— À son approche, nous déclinons notre qualité ainsi que le motif de notre contrôle. —</p>
+
+  <p>— Nous lui demandons de présenter un document pouvant justifier de son identité, conformément aux dispositions de l’article 78-2 du Code de procédure pénale. —</p>
+
+  <p id="piece_pieton_o">— L’intéressé(e) obtempère et est en mesure de nous présenter un document de type : <span id="piece_type_o">[pièce d'identité présentée]</span>. —</p>
+
+</div>
       <p>— Il s’agit de : —</p>
 
       <p id="esi_lang_phrase_o">
 — <span id="esi_civil_o">Monsieur</span> <span id="esi_nom_o">Nom</span> <span id="esi_prenom_o">Prénom</span> né<span id="esi_nee_o"></span> le <span id="esi_dnaiss_o">(date de naissance)</span> à <span id="esi_lnaiss_o">Ville de naissance</span>, de nationalité <span id="esi_nat_o">(nationalité)</span>, de sexe <span id="esi_sexe_o">masculin</span>. <span id="langue_phrase_o">L’individu s’exprime en français approximatif.</span> <span id="identite_phrase_o">Son identité est relevée sur les pièces précitées.</span> —
 </p>
 
-      <p>— Effectuons des recherches concernant cette personne auprès des fichiers de Police mis à notre disposition, à l’aide de notre tablette de service : —</p>
 
-      <p>— FPR : <span id="fpr_o">Négatif</span> —</p>
+      <p>— Effectuons des recherches concernant cette personne auprès des fichiers de Police mis à notre disposition, à l’aide de notre tablette de service : —</p>
+	  <p>— FPR : <span id="fpr_o">Négatif</span> —</p>
       <p>— AGDREF : <span id="agdref_o">Négatif</span> —</p>
       <p>—Aux fichiers Nationaux il appert qu’à ce jour et sous cette identité : <span id="fichiers_nat_o">il a fait l’objet d’une OQTF</span> —</p>
       <p>— Rendons immédiatement compte des faits à l’Officier de Police Judiciaire Territorialement Compétent de permanence du poste de la Police Aux Frontières de <span id="paf_ville_o1">Saint Louis à Menton</span>, qui nous donne l’ordre de lui présenter <span id="esi_civil2_o">Monsieur</span> <span id="esi_nom2_o">THIAM</span> <span id="esi_prenom2_o">Mamadou Moustapha</span> dans les plus brefs délais. —</p>
@@ -691,7 +709,9 @@ function qualiteLongue(code) {
 }
 
   function generatePV(){
-  
+  // === Met à jour le texte piéton avant génération ===
+if (typeof majTextePieton === "function") majTextePieton();
+
 	
   // Fonction utilitaire : convertir HH:MM en texte
 function heureEnLettres(hhmm) {
@@ -798,7 +818,19 @@ const heureL_txt = heureEnLettres(heureL);
 
     // Véhicule / constatation
     setTxt('esi_hconstat_o', hc_txt);
-    setTxt('veh_type_o', veh_type==='train'?'train':(veh_type==='VL'?'véhicule léger':(veh_type==='PL'?'poids lourd':'autobus')));
+    setTxt(
+  'veh_type_o',
+  veh_type === 'train'
+    ? 'train'
+    : veh_type === 'vl'
+    ? 'véhicule léger'
+    : veh_type === 'pl'
+    ? 'poids lourd'
+    : veh_type === 'personne'
+    ? 'individu circulant à pied'
+    : 'autobus'
+);
+
     setTxt('veh_pays_o', veh_pays ? 'en ' + veh_pays : '');
     setTxt('veh_marque_o', veh_marque);
     setTxt('veh_immat_o', veh_immat);
@@ -1050,7 +1082,10 @@ if (esi_sexe === 'f') {
               margin: 0 auto;
             }
           }
-		  
+		  #sign_col_g {
+  letter-spacing: 1px;
+  word-spacing: 20px;
+}
         </style>
       </head>
       <body>
@@ -1087,7 +1122,14 @@ function savePV() {
     const el = document.getElementById(id);
     if (el) data[id] = el.value;
   });
-
+ // ✅ Ajout des champs PIÉTON (issus du texte généré)
+  const heurePieton = document.getElementById('heure_pieton_o')?.textContent || '';
+  const lieuPieton  = document.getElementById('lieu_pieton_o')?.textContent || '';
+  const pieceType   = document.getElementById('piece_type_o')?.textContent || '';
+   data.heure_pieton = heurePieton;
+  data.lieu_pieton  = lieuPieton;
+  data.piece_type   = pieceType;
+  
   // Champs dynamiques (assistants)
   const assistants = [];
   document.querySelectorAll('#assist_list > div').forEach((div, index) => {
@@ -1149,10 +1191,26 @@ window.addEventListener('load', () => {
         div.querySelector(`[id^="a_affect_"]`).value = a.affect;
       });
     }
+	// ✅ Restauration des champs piéton s’ils existent
+if (data.heure_pieton && document.getElementById('heure_pieton_o')) {
+  document.getElementById('heure_pieton_o').textContent = data.heure_pieton;
+}
+if (data.lieu_pieton && document.getElementById('lieu_pieton_o')) {
+  document.getElementById('lieu_pieton_o').textContent = data.lieu_pieton;
+}
+if (data.piece_type && document.getElementById('piece_type_o')) {
+  document.getElementById('piece_type_o').textContent = data.piece_type;
+}
 
-    console.log("♻️ PV restauré avec les assistants sauvegardés");
+// ✅ Recalcule affichage piéton si sélectionné
+if (typeof majAffichageType === "function") majAffichageType();
+if (typeof majTextePieton === "function") majTextePieton();
+
+   console.log("♻️ PV restauré avec les assistants sauvegardés");
+
   } catch(e) {
     console.error('Erreur chargement PV sauvegardé', e);
+	
   }
 });
 
@@ -1325,5 +1383,198 @@ if ('serviceWorker' in navigator) {
     .catch(err => console.error('❌ Erreur SW:', err));
 }
 </script>
+<script>
+// === Texte piéton neutre et complet (avec identification automatique) ===
+(function(){
+  function majTextePieton(){
+    const veh = (document.getElementById("veh_type")?.value || "").toLowerCase();
+    if (veh !== "personne") return; // uniquement si piéton
+
+    // Champs du formulaire
+    const heure = document.getElementById("esi_hconstat")?.value || "[heure de constatation]";
+    const lieu  = document.getElementById("lieu_controle")?.value || "[lieu du contrôle]";
+    const piece = (document.getElementById("piece_id")?.value ?? "").trim();
+
+    const nom    = document.getElementById("esi_nom")?.value || "[NOM]";
+    const prenom = document.getElementById("esi_prenom")?.value || "[Prénom]";
+    const naissance = document.getElementById("esi_dnaiss")?.value || "[date de naissance]";
+    const lieuNais  = document.getElementById("esi_lnaiss")?.value || "[lieu de naissance]";
+    const nationalite = document.getElementById("esi_nat")?.value || "[nationalité]";
+    const sexe = (document.getElementById("esi_sexe")?.value || "").toLowerCase();
+
+    // Récupération des zones de texte dans le PV
+    const spanHeure = document.getElementById("heure_pieton_o");
+    const spanLieu  = document.getElementById("lieu_pieton_o");
+    const phrasePiece = document.getElementById("piece_pieton_o");
+    const pieceSpan = document.getElementById("piece_type_o");
+    const identiteBloc = document.getElementById("identite_pieton_o");
+    const sourceIdentite = document.getElementById("source_identite_o");
+
+    // Remplissage heure/lieu
+    if (spanHeure) spanHeure.textContent = heure;
+    if (spanLieu)  spanLieu.textContent  = lieu;
+
+    // Accord de "L'intéressé(e)"
+    const interesse = (sexe === "f") ? "L’intéressée" : "L’intéressé";
+
+    // Phrase sur la pièce d'identité
+    if (phrasePiece) {
+      if (piece) {
+        phrasePiece.innerHTML =
+          "— " + interesse + " obtempère et est en mesure de nous présenter un document de type : " +
+          "<span id=\"piece_type_o\">" + piece + "</span>. —";
+      } else {
+        phrasePiece.innerHTML =
+          "— " + interesse + " n’est pas en mesure de nous présenter de document permettant de justifier de son identité. —";
+      }
+    }
+
+    // Bloc identité piéton
+    if (identiteBloc) {
+      identiteBloc.innerHTML =
+        "— " + (sexe === "f" ? "Madame " : "Monsieur ") + nom + " " + prenom +
+        " né" + (sexe === "f" ? "e" : "") + " le " + naissance +
+        ", à " + lieuNais +
+        ", de nationalité " + nationalite +
+        ", de sexe " + (sexe === "f" ? "féminin" : "masculin") +
+        ". L’individu parle français. <span id='source_identite_o'>" +
+        (piece ? "Son identité est relevée sur les pièces précitées." : "selon sa déclaration verbale.") +
+        "</span> —";
+    }
+  }
+
+  // Mets à jour à chaque changement des champs
+  document.addEventListener("change", (e)=>{
+    if([
+      "veh_type","esi_hconstat","lieu_controle","piece_id",
+      "esi_nom","esi_prenom","esi_dnaiss","esi_lnaiss","esi_nat","esi_sexe"
+    ].includes(e.target.id)){
+      majTextePieton();
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", majTextePieton);
+})();
+
+</script>
+<script>
+(function () {
+  function majAffichageType() {
+    const veh = document.getElementById("texte-vehicule");
+    const pie = document.getElementById("texte-pieton");
+    const sel = document.getElementById("veh_type");
+
+    if (!sel || !veh || !pie) {
+      console.warn("Bascule: élément manquant",
+        { sel: !!sel, veh: !!veh, pie: !!pie });
+      return;
+    }
+
+    const v = (sel.value || "").toLowerCase();
+    // bascule affichage
+    if (v === "personne") {
+      veh.style.display = "none";
+      pie.style.display = "block";
+    } else {
+      veh.style.display = "block";
+      pie.style.display = "none";
+    }
+  }
+
+  function bindBascule() {
+    const sel = document.getElementById("veh_type");
+    if (sel && !sel._pietonBound) {
+      sel.addEventListener("change", majAffichageType);
+      sel._pietonBound = true;
+    }
+    // applique l'état actuel (utile au rechargement)
+    majAffichageType();
+  }
+
+  // 1) Quand le DOM est prêt
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bindBascule);
+  } else {
+    bindBascule();
+  }
+
+  // 2) Après ta génération PV (si elle existe), on réapplique la bascule
+  if (typeof window.generatePV === "function" && !window._wrapGenPV_forPieton) {
+    const orig = window.generatePV;
+    window.generatePV = function () {
+      const out = orig.apply(this, arguments);
+      try { majAffichageType(); } catch (e) {}
+      return out;
+    };
+    window._wrapGenPV_forPieton = true;
+  }
+})();
+</script>
+<script>
+// === MISE À JOUR DES SIGNATURES ET TITRES SELON QUALITÉ ET NOMBRE D’ASSISTANTS ===
+function majSignaturesEtTitres() {
+  const qualite = (document.getElementById("esr_qualite")?.value || "").trim();
+  const assistants = document.querySelectorAll('#assist_list > div').length;
+
+  // === COLONNE DE GAUCHE ===
+  const colonneGauche = document.getElementById("sign_col_g");
+  if (colonneGauche) {
+    // Texte qualité abrégée (haut du PV)
+    let qualiteCourte = "Le rédacteur";
+    if (qualite.match(/opj/i)) qualiteCourte = "L’OPJ";
+    else if (qualite.match(/apj/i)) qualiteCourte = "L’APJ";
+    else if (qualite.match(/apja/i)) qualiteCourte = "L’APJA";
+
+    // Texte assistants
+    const assistantsTexte = assistants > 1 ? "Les assistants" : "L’assistant";
+
+    // Injection
+    colonneGauche.textContent = `${qualiteCourte}               ${assistantsTexte}`;
+  }
+
+  // === SIGNATURE EN BAS ===
+  const celluleRedacteur = document.querySelector('.signzone .signcell:first-child');
+  const celluleAssistants = document.querySelector('.signzone .signcell:last-child');
+
+  if (celluleRedacteur) {
+    // Texte complet de la qualité pour signature
+    let qualiteLongue = "Le rédacteur";
+    if (qualite.match(/opj/i)) qualiteLongue = "L’Officier de Police Judiciaire";
+    else if (qualite.match(/apj/i)) qualiteLongue = "L’Agent de Police Judiciaire";
+    else if (qualite.match(/apja/i)) qualiteLongue = "L’Agent de Police Judiciaire Adjoint";
+
+    celluleRedacteur.textContent = qualiteLongue;
+  }
+
+  if (celluleAssistants) {
+    const assistantsTexte = assistants > 1 ? "Les assistants" : "L’assistant";
+    celluleAssistants.textContent = assistantsTexte;
+  }
+}
+
+// Exécution automatique à chaque changement de qualité ou d’assistants
+document.addEventListener("input", e => {
+  if (["esr_qualite"].includes(e.target.id)) majSignaturesEtTitres();
+});
+document.addEventListener("click", e => {
+  if (e.target.matches(".btn-add-assistant, .btn-remove-assistant")) {
+    setTimeout(majSignaturesEtTitres, 100);
+  }
+});
+
+// Exécution au chargement et à chaque génération de PV
+window.addEventListener("load", majSignaturesEtTitres);
+if (typeof generatePV === "function" && !window._signaturesBound) {
+  const orig = generatePV;
+  window.generatePV = function () {
+    const out = orig.apply(this, arguments);
+    try { majSignaturesEtTitres(); } catch(e) {}
+    return out;
+  };
+  window._signaturesBound = true;
+}
+
+</script>
+
 </body>
 </html>

@@ -503,6 +503,7 @@ autocapitalize="off"
   <div class="toolbar" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
   <a href="#" class="back-btn" onclick="backHome()">⬅ Retour</a>
     <button onclick="generatePV()">🧾 Générer le PV</button>
+    <button id="sendMailBtn">📧 Envoyer par mail</button>
     <button class="secondary" onclick="openPrintPreview()">🖨️ Imprimer / PDF</button>
     <button onclick="sauvegarderPV()">💾 Sauvegarder le PV</button>
     <button onclick="ouvrirMesPV()">📁 Mes PV sauvegardés</button>
@@ -1574,6 +1575,48 @@ if (typeof generatePV === "function" && !window._signaturesBound) {
   window._signaturesBound = true;
 }
 
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+document.getElementById('sendMailBtn').addEventListener('click', async () => {
+  try {
+    // 1️⃣ On régénère le PV pour être sûr qu’il soit à jour
+    generatePV();
+
+    // 2️⃣ Attente légère pour laisser le DOM se mettre à jour
+    await new Promise(r => setTimeout(r, 500));
+
+    const sheet = document.getElementById('sheet');
+    if (!sheet || sheet.innerHTML.trim() === "") {
+      alert("⚠️ Aucun PV généré. Génère-le avant d’envoyer par mail.");
+      return;
+    }
+
+    // 3️⃣ Génère un PDF temporaire du PV affiché
+    const opt = {
+      margin: 0.5,
+      filename: 'proces-verbal.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+    const pdfBlob = await html2pdf().set(opt).from(sheet).output('blob');
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+
+    // 4️⃣ Prépare le mail
+    const subject = encodeURIComponent("Transmission du procès-verbal");
+    const body = encodeURIComponent(
+      "Bonjour,\n\nVeuillez trouver ci-joint le procès-verbal généré.\n\nTéléchargez le fichier ici : " + pdfUrl + "\n\nCordialement."
+    );
+
+    // 5️⃣ Ouvre la messagerie
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  } catch (err) {
+    console.error("Erreur lors de la préparation du mail :", err);
+    alert("❌ Une erreur est survenue lors de la préparation du mail.");
+  }
+});
 </script>
 
 </body>

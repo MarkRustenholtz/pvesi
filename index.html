@@ -257,6 +257,22 @@ fieldset textarea {
   letter-spacing: 1px;
   word-spacing: 20px;
 }
+
+#optionsMenu button {
+  background: white;
+  color: #003366;
+  border: 2px solid #003366;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: 0.2s;
+}
+#optionsMenu button:hover {
+  background: #003366;
+  color: white;
+}
+
 </style>
 </head>
 
@@ -500,15 +516,23 @@ autocapitalize="off"
 
 <!-- SECTION OPTIONS -->
 <section id="options">
-  <div class="toolbar" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
-  <a href="#" class="back-btn" onclick="backHome()">⬅ Retour</a>
-    <button onclick="generatePV()">🧾 Générer le PV</button>
-    <button id="sendMailBtn">📧 Envoyer par mail</button>
-    <button class="secondary" onclick="openPrintPreview()">🖨️ Imprimer / PDF</button>
-    <button onclick="sauvegarderPV()">💾 Sauvegarder le PV</button>
-    <button onclick="ouvrirMesPV()">📁 Mes PV sauvegardés</button>
-    <button onclick="nouveauPV()">🆕 Nouveau PV</button>
-	 
+  <div class="toolbar" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;flex-direction:column;align-items:center;">
+    <a href="#" class="back-btn" onclick="backHome()">⬅ Retour</a>
+
+    <!-- 🔽 Bouton principal -->
+    <button id="toggleOptions" style="background:#003366;color:white;border:none;border-radius:10px;padding:12px 20px;font-size:1.1em;cursor:pointer;">
+      ⚙️ Options
+    </button>
+
+    <!-- 🔽 Menu déroulant masqué par défaut -->
+    <div id="optionsMenu" style="display:none;flex-direction:column;gap:8px;margin-top:10px;">
+      <button onclick="generatePV()">🧾 Générer le PV</button>
+      <button class="secondary" onclick="openPrintPreview()">🖨️ Imprimer / PDF</button>
+      <button id="sendMailBtn">📧 Envoyer par mail</button>
+      <button onclick="sauvegarderPV()">💾 Sauvegarder le PV</button>
+      <button onclick="ouvrirMesPV()">📁 Mes PV sauvegardés</button>
+      <button onclick="nouveauPV()">🆕 Nouveau PV</button>
+    </div>
   </div>
    <h2>Procès-verbal généré</h2>
    <div id="sheet">
@@ -1597,6 +1621,13 @@ document.getElementById('sendMailBtn').addEventListener('click', () => {
 
   // 🔹 Ouvre la boîte mail avec destinataire, objet et corps préremplis
   window.location.href = `mailto:${destinataire}?subject=${subject}&body=${body}`;
+});
+</script>
+<script>
+// === Menu déroulant Options ===
+document.getElementById('toggleOptions').addEventListener('click', () => {
+  const menu = document.getElementById('optionsMenu');
+  menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'flex' : 'none';
 });
 </script>
 

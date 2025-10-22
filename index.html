@@ -1576,46 +1576,27 @@ if (typeof generatePV === "function" && !window._signaturesBound) {
 }
 
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <script>
-document.getElementById('sendMailBtn').addEventListener('click', async () => {
-  try {
-    // 1️⃣ On régénère le PV pour être sûr qu’il soit à jour
-    generatePV();
+document.getElementById('sendMailBtn').addEventListener('click', () => {
+  // 🔹 Récupère le nom ESI et la date pour personnaliser le mail
+  const nom = document.getElementById('esi_nom').value.trim() || "ESI";
+  const date = document.getElementById('date_lettres').value.trim() || "Date";
 
-    // 2️⃣ Attente légère pour laisser le DOM se mettre à jour
-    await new Promise(r => setTimeout(r, 500));
+  // 🔹 Adresse du destinataire (modifie ici si besoin)
+  const destinataire = "chef-ds@interieur.gouv.fr";  // <-- tu peux en mettre plusieurs séparés par des virgules
 
-    const sheet = document.getElementById('sheet');
-    if (!sheet || sheet.innerHTML.trim() === "") {
-      alert("⚠️ Aucun PV généré. Génère-le avant d’envoyer par mail.");
-      return;
-    }
+  // 🔹 Objet et corps du message
+  const subject = encodeURIComponent(`Transmission du PV - ${nom} (${date})`);
+  const body = encodeURIComponent(
+    "Bonjour,\n\n" +
+    "Veuillez trouver ci-joint le procès-verbal généré et enregistré depuis l’application Border Force / App PV.\n\n" +
+    "📎 Sélectionnez le fichier PDF que vous avez enregistré précédemment (dans le dossier Téléchargements ou Documents de votre appareil).\n\n" +
+    "Cordialement,\n" +
+    "Gendarmerie Nationale - Border Force 06\n"
+  );
 
-    // 3️⃣ Génère un PDF temporaire du PV affiché
-    const opt = {
-      margin: 0.5,
-      filename: 'proces-verbal.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
-    const pdfBlob = await html2pdf().set(opt).from(sheet).output('blob');
-    const pdfUrl = URL.createObjectURL(pdfBlob);
-
-    // 4️⃣ Prépare le mail
-    const subject = encodeURIComponent("Transmission du procès-verbal");
-    const body = encodeURIComponent(
-      "Bonjour,\n\nVeuillez trouver ci-joint le procès-verbal généré.\n\nTéléchargez le fichier ici : " + pdfUrl + "\n\nCordialement."
-    );
-
-    // 5️⃣ Ouvre la messagerie
-    window.location.href = `mailto:?subject=${subject}&body=${body}`;
-  } catch (err) {
-    console.error("Erreur lors de la préparation du mail :", err);
-    alert("❌ Une erreur est survenue lors de la préparation du mail.");
-  }
+  // 🔹 Ouvre la boîte mail avec destinataire, objet et corps préremplis
+  window.location.href = `mailto:${destinataire}?subject=${subject}&body=${body}`;
 });
 </script>
 

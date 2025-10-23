@@ -590,10 +590,10 @@ DIRECTION GÉNÉRALE DE LA GENDARMERIE     NATIONALE</div>
       <p>— Vu la note des autorités françaises notifiant au premier Vice-président de la commission européenne son intention, à compter du 1er mai 2025 et jusqu’au 31 octobre 2025, de prolonger le rétablissement des contrôles aux frontières intérieures de la France avec la Belgique, le Luxembourg, l’Allemagne, l’Italie, l’Espagne, et la confédération Suisse, sur le fondement des articles 25 et 27 du règlement 2016/399 susvisé. —</p>
       <p>— Revêtus de nos uniformes réglementaires et insignes afférents à notre fonction et munis du gilet réfléchissant GENDARMERIE, —</p>
       <div id="texte-vehicule">
-      <p>— À <span id="esi_hconstat_o">(Heure de constatation)</span>, nous constatons la présence d’un <span id="veh_type_o">(véhicule)</span> <span id="veh_marque_o">(Marque du vehicule)</span> immatriculé <span id="veh_pays_o">(pays d'immatriculation)</span> sous le numéro <span id="veh_immat_o">(immatriculation)</span> en circulation et arrivant dans notre direction  —</p>
-	  <p>— Faisons signe réglementairement <span id="conducteur_article_o">au</span> <span id="conducteur_label_o">(conducteur)</span> de stationner son véhicule correctement et en sécurité <span id="lieu_controle_o">sur le parking de l’aire de repos du péage de La Turbie</span>, afin de procéder au contrôle de l’identité des passagers du véhicule. —</p>
+      <p id="constatation_o">— À <span id="esi_hconstat_o">(Heure de constatation)</span>, nous constatons la présence d’un <span id="veh_type_o">(véhicule)</span> <span id="veh_marque_o">(Marque du vehicule)</span> immatriculé <span id="veh_pays_o">(pays d'immatriculation)</span> sous le numéro <span id="veh_immat_o">(immatriculation)</span> en circulation et arrivant dans notre direction  —</p>
+	  <p id="signe_o">— Faisons signe réglementairement <span id="conducteur_article_o">au</span> <span id="conducteur_label_o">(conducteur)</span> de stationner son véhicule correctement et en sécurité <span id="lieu_controle_o">sur le parking de l’aire de repos du péage de La Turbie</span>, afin de procéder au contrôle de l’identité des passagers du véhicule. —</p>
       <p>— <span id="conducteur_article2_o">Le</span> <span id="conducteur_label2_o">conducteur</span> obtempère à notre demande, déclinons notre qualité et le motif de notre contrôle. —</p>
-	  <p>— Procédons au contrôle d'identité des personnes à bord du véhicule.</p>
+	  <p id="phrase_controle_o">— Procédons au contrôle d'identité des personnes à bord du véhicule.</p>
 
       <p id="piece_phrase_o">
 — À son bord, <span id="passager_article_o">un</span> <span id="passager_label_o">passager</span>
@@ -609,7 +609,7 @@ DIRECTION GÉNÉRALE DE LA GENDARMERIE     NATIONALE</div>
 
   <p>— À son approche, nous déclinons notre qualité ainsi que le motif de notre contrôle. —</p>
 
-  <p>— Nous lui demandons de présenter un document pouvant justifier de son identité, conformément aux dispositions de l’article 78-2 du Code de procédure pénale. —</p>
+  <p>— Nous l’invitons à justifier de son identité, conformément aux dispositions de l’article 78-2 du Code de procédure pénale. —</p>
 
   <p id="piece_pieton_o">— L’intéressé(e) obtempère et est en mesure de nous présenter un document de type : <span id="piece_type_o">[pièce d'identité présentée]</span>. —</p>
 
@@ -845,22 +845,104 @@ const heureL_txt = heureEnLettres(heureL);
     setTxt('esi_hconstat_o', hc_txt);
     setTxt(
   'veh_type_o',
-  veh_type === 'train'
+  veh_type.toLowerCase() === 'train'
     ? 'train'
-    : veh_type === 'vl'
+    : veh_type.toLowerCase() === 'vl'
     ? 'véhicule léger'
-    : veh_type === 'pl'
+    : veh_type.toLowerCase() === 'pl'
     ? 'poids lourd'
-    : veh_type === 'personne'
+    : veh_type.toLowerCase() === 'personne'
     ? 'individu circulant à pied'
-    : 'autobus'
+    : veh_type.toLowerCase() === 'bus'
+    ? 'autobus'
+    : 'véhicule'
 );
+
 
     setTxt('veh_pays_o', veh_pays ? 'en ' + veh_pays : '');
     setTxt('veh_marque_o', veh_marque);
     setTxt('veh_immat_o', veh_immat);
     setTxt('lieu_controle_o', lieu_ctrl);
     setTxt('piece_id_o', piece_id);
+
+// === Adaptation du texte selon le type de véhicule ===
+(() => {
+  const type = (veh_type || "").toLowerCase();
+
+  // 🚶‍♂️ Cas piéton → on ne modifie rien
+  if (type === "personne") return;
+
+  const constat = document.getElementById("constatation_o");
+  const signe = document.getElementById("signe_o");
+  const reponse = document.getElementById("conducteur_reponse_o");
+  const controle = document.getElementById("phrase_controle_o");
+
+  // === Cas TRAIN ===
+if (type === "train") {
+  // 1️⃣ Phrase de constatation
+  if (constat) {
+    constat.textContent = `— À ${hc_txt}, nous constatons la présence d’un train ${veh_marque || ""} immatriculé en ${veh_pays || ""} sous le numéro ${veh_immat || ""}, en circulation et arrivant en gare dans notre direction. —`;
+  }
+
+  // 2️⃣ Phrase de contact conducteur/conductrice
+  if (signe) {
+    const article = document.getElementById("conducteur_article_o")?.textContent?.trim() || "au";
+    const label = document.getElementById("conducteur_label_o")?.textContent?.trim() || "conducteur";
+    signe.innerHTML = `— À l’arrêt du train, faisons signe <span id="conducteur_article_o">${document.getElementById("conducteur_article_o")?.textContent || "au"}</span> <span id="conducteur_label_o">${document.getElementById("conducteur_label_o")?.textContent || "conducteur"}</span> afin de lui indiquer que nous allons procéder à un contrôle. —`;
+  }
+
+  // 3️⃣ Phrase d’obtempération (adaptée au genre)
+  if (reponse) {
+    const article2 = document.getElementById("conducteur_article2_o")?.textContent?.trim() || "Le";
+    const label2 = document.getElementById("conducteur_label2_o")?.textContent?.trim() || "conducteur";
+    reponse.innerHTML = `— ${article2} ${label2} obtempère à notre demande, nous déclinons notre qualité et le motif de notre contrôle. —`;
+  }
+
+  // 4️⃣ Phrase de contrôle
+  if (controle) {
+    controle.textContent = "— Procédons au contrôle d’identité des passagers à bord du train. —";
+  }
+
+  return;
+}
+
+
+  // === 🔹 CAS BUS / VL / PL / AUTRE ===
+  const texteConstatStd = `— À ${hc_txt}, nous constatons la présence d’un ${type === "vl" ? "véhicule léger" : type === "pl" ? "poids lourd" : type === "bus" ? "autobus" : "véhicule"} ${veh_marque || ""} immatriculé ${veh_pays ? "en " + veh_pays : ""} sous le numéro ${veh_immat || ""} en circulation et arrivant dans notre direction. —`;
+  if (constat) constat.textContent = texteConstatStd;
+
+  // 🧩 Ici on garde les spans dynamiques pour les accords de genre
+  if (signe) {
+    let lieu = lieu_ctrl || "sur le bas-côté";
+    if (type === "bus") lieu = lieu_ctrl || "sur le quai de la gare";
+
+    signe.innerHTML = `— Faisons signe réglementairement <span id="conducteur_article_o">${document.getElementById("conducteur_article_o")?.textContent || "au"}</span> <span id="conducteur_label_o">${document.getElementById("conducteur_label_o")?.textContent || "conducteur"}</span> de stationner son véhicule correctement et en sécurité ${lieu}, afin de procéder au contrôle de l’identité des passagers du véhicule. —`;
+  }
+
+  if (reponse) {
+    reponse.innerHTML = `— <span id="conducteur_article2_o">${document.getElementById("conducteur_article2_o")?.textContent || "Le"}</span> <span id="conducteur_label2_o">${document.getElementById("conducteur_label2_o")?.textContent || "conducteur"}</span> obtempère à notre demande, déclinons notre qualité et le motif de notre contrôle. —`;
+  }
+
+  if (controle) {
+    let phrase = "";
+    switch (type) {
+      case "bus":
+        phrase = "— Procédons au contrôle d’identité des passagers à bord du bus. —";
+        break;
+      case "vl":
+        phrase = "— Procédons au contrôle d’identité des passagers à bord du véhicule léger. —";
+        break;
+      case "pl":
+        phrase = "— Procédons au contrôle d’identité des passagers à bord du poids lourd. —";
+        break;
+      default:
+        phrase = "— Procédons au contrôle d’identité des passagers à bord du véhicule. —";
+    }
+    controle.textContent = phrase;
+  }
+})();
+
+
 // Accord conducteur / conductrice
 if (conducteur_genre === 'f') {
   setTxt('conducteur_article_o', 'à la');

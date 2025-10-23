@@ -259,12 +259,21 @@ fieldset textarea {
 }
 
 /* 🧭 Menu déroulant mobile-friendly */
-#optionsMenu {
+/*#optionsMenu {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* 2 colonnes sur PC, 1 sur mobile */
   gap: 12px;
   width: 100%;
+}*/
+	#optionsMenu {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* ⬅️ FORCÉ : 2 colonnes fixes */
+  gap: 12px;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
 }
+
 
 /* 🎨 Style des boutons */
 #optionsMenu button {
@@ -1841,3 +1850,4 @@ function formatDateNaissance(input) {
 
 </body>
 </html>
+

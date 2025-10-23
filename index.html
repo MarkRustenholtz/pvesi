@@ -258,20 +258,38 @@ fieldset textarea {
   word-spacing: 20px;
 }
 
+#optionsMenu {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 colonnes égales */
+  gap: 12px;                              /* espace entre les boutons */
+  max-width: 600px;                       /* largeur max du bloc (optionnel) */
+  margin: 0 auto;                         /* centre le tout */
+}
+
 #optionsMenu button {
+  min-height: 52px;
+  padding: 12px 22px;
   background: white;
   color: #003366;
   border: 2px solid #003366;
-  border-radius: 8px;
-  padding: 16px 20px;
-  font-size: 1em;
+  border-radius: 10px;
+  font-size: 1.2em;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   cursor: pointer;
   transition: 0.2s;
+  box-sizing: border-box;
 }
+
 #optionsMenu button:hover {
   background: #003366;
   color: white;
 }
+
+
 
 </style>
 </head>

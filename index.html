@@ -258,36 +258,62 @@ fieldset textarea {
   word-spacing: 20px;
 }
 
+/* 🧭 Menu déroulant mobile-friendly */
 #optionsMenu {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 colonnes égales */
-  gap: 12px;                              /* espace entre les boutons */
-  max-width: 600px;                       /* largeur max du bloc (optionnel) */
-  margin: 0 auto;                         /* centre le tout */
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* 2 colonnes sur PC, 1 sur mobile */
+  gap: 12px;
+  width: 100%;
 }
 
+/* 🎨 Style des boutons */
 #optionsMenu button {
-  min-height: 52px;
-  padding: 12px 22px;
+  min-height: 64px;
+  padding: 14px 20px;
+  background: linear-gradient(180deg, #0d6efd, #003366);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.05em;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+  transition: all 0.15s ease;
+  cursor: pointer;
+  text-align: center;
+}
+
+#optionsMenu button i {
+  font-size: 1.4em;
+}
+
+#optionsMenu button:hover {
+  background: linear-gradient(180deg, #0055cc, #002b66);
+}
+
+#optionsMenu button:active {
+  transform: scale(0.96);
+}
+
+/* 🔙 Bouton retour */
+.back-btn {
   background: white;
   color: #003366;
   border: 2px solid #003366;
   border-radius: 10px;
-  font-size: 1.2em;
-  line-height: 1.2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  cursor: pointer;
+  padding: 10px 18px;
+  text-decoration: none;
+  font-weight: 600;
   transition: 0.2s;
-  box-sizing: border-box;
 }
-
-#optionsMenu button:hover {
+.back-btn:hover {
   background: #003366;
   color: white;
 }
+
 
 
 
@@ -557,15 +583,15 @@ autocapitalize="off"
       ⚙️ MENU
     </button>
 
-    <!-- 🔽 Menu déroulant masqué par défaut -->
-    <div id="optionsMenu" style="display:none;flex-direction:column;gap:8px;margin-top:10px;">
-      <button onclick="generatePV()">🧾 Générer le PV</button>
-      <button class="secondary" onclick="openPrintPreview()">🖨️ Imprimer / PDF</button>
-      <button id="sendMailBtn">📧 Envoyer par mail</button>
-      <button onclick="sauvegarderPV()">💾 Sauvegarder le PV</button>
-      <button onclick="ouvrirMesPV()">📁 Mes PV sauvegardés</button>
-      <button onclick="nouveauPV()">🆕 Nouveau PV</button>
-    </div>
+   <!-- 🔽 Menu déroulant masqué par défaut -->
+<div id="optionsMenu" style="display:none;flex-direction:column;gap:8px;margin-top:10px;">
+  <button onclick="generatePV()"><i class="fa-solid fa-file-lines"></i> Générer le PV</button>
+  <button class="secondary" onclick="openPrintPreview()"><i class="fa-solid fa-print"></i> Imprimer / PDF</button>
+  <button id="sendMailBtn"><i class="fa-solid fa-envelope"></i> Envoyer par mail</button>
+  <button onclick="sauvegarderPV()"><i class="fa-solid fa-floppy-disk"></i> Sauvegarder le PV</button>
+  <button onclick="ouvrirMesPV()"><i class="fa-solid fa-folder-open"></i> Mes PV sauvegardés</button>
+  <button onclick="nouveauPV()"><i class="fa-solid fa-plus"></i> Nouveau PV</button>
+</div>
   </div>
    <h2>Procès-verbal généré</h2>
    <div id="sheet">

@@ -263,7 +263,7 @@ fieldset textarea {
   color: #003366;
   border: 2px solid #003366;
   border-radius: 8px;
-  padding: 10px 15px;
+  padding: 16px 20px;
   font-size: 1em;
   cursor: pointer;
   transition: 0.2s;
@@ -403,8 +403,8 @@ fieldset textarea {
 </select>
           </div>
         </div>
-		<label>Marque du véhicule/Compagnie du train</label>
-<input id="veh_marque"placeholder="ex:Mercedes,Renault/Train ex: Tranitalia" />
+		<label>Marque du véhicule/Compagnie du train/bus</label>
+<input id="veh_marque"placeholder="ex:Renault/Tranitalia/Flixbus" />
 
         <label>Immatriculation / n° de train</label>
         <input id="veh_immat" 
@@ -426,7 +426,7 @@ oninput="if(this.value) this.value = this.value.charAt(0).toLowerCase() + this.v
 </select>
 
         <label>Lieu du contrôle</label>
-        <input id="lieu_controle" placeholder="SUR l'aire de repos /le bas côté/le quai de gare" 
+        <input id="lieu_controle" placeholder="ex: sur le bas côté" 
 autocapitalize="off"
        autocorrect="off"
        spellcheck="false">
@@ -458,8 +458,9 @@ autocapitalize="off"
         </div>
         <div class="row3">
           <div>
-            <label>Date de naissance</label>
-            <input id="esi_dnaiss" placeholder="01/01/1992" />
+           <label>Date de naissance</label>
+<input id="esi_dnaiss" type="text" maxlength="10" placeholder="jj/mm/aaaa" oninput="formatDateNaissance(this)">
+
           </div>
           <div>
             <label>Lieu de naissance</label>
@@ -500,10 +501,21 @@ autocapitalize="off"
           </div>
         </div>
         <div class="row">
-          <div>
-            <label>Palpation (genre de l’agent qui palpe)</label>
-            <select id="palp_genre"><option value="m">Masculin</option><option value="f">Féminin</option></select>
-          </div>
+         <div>
+  <label>Palpation (genre de l’agent qui palpe)</label>
+  <select id="palp_genre" onchange="majPalpation()">
+    <option value="">— Sélectionner —</option>
+    <option value="m">Masculin</option>
+    <option value="f">Féminin</option>
+    <option value="impossible">Impossible (pas de personnel du même sexe)</option>
+  </select>
+</div>
+
+<div>
+  <label>Objets trouvés sur l’individu</label>
+  <input type="text" id="objets_trouves" placeholder="ex : couteau pliant, briquet" oninput="majPalpation()">
+</div>
+<small>⚠️SI PAS D'OBJET NE RIEN ECRIRE⚠️
           <div>
             <label>Véhicule de transport</label>
             <select id="transport_type"><option>GENDARMERIE</option><option>Translation Police</option></select>
@@ -524,7 +536,7 @@ autocapitalize="off"
 
     <!-- 🔽 Bouton principal -->
     <button id="toggleOptions" style="background:#003366;color:white;border:none;border-radius:10px;padding:12px 20px;font-size:1.1em;cursor:pointer;">
-      ⚙️ Options
+      ⚙️ MENU
     </button>
 
     <!-- 🔽 Menu déroulant masqué par défaut -->
@@ -633,12 +645,13 @@ DIRECTION GÉNÉRALE DE LA GENDARMERIE     NATIONALE</div>
       <p>— Agissant en vertu des articles L813-1 à L813-16 du Code de l’Entrée et du Séjour des Étrangers et du Droit d’Asile, —</p>
       <p>— Informons la personne qu’elle se trouve en situation irrégulière sur le territoire national français. —</p>
       <p>— Invitons <span id="esi_civil3_o">Monsieur</span> <span id="esi_nom3_o">THIAM</span> <span id="esi_prenom3_o">Mamadou Moustapha</span> à nous suivre. —</p>
-      <p>— <span id="palp_phrase_o">Palpé par mesure de sécurité, par un personnel masculin, il n’est trouvé porteur d’aucun objet dangereux pour autrui ou pour lui-même</span>. —</p>
+      <p>— <span id="palpation_text" style="white-space:pre-line; color:#000;"></span> —</p>
       <p>— <span id="transport_phrase_o">
 Transportons l’individu sans contrainte ni entraves au poste de la Police Aux Frontières de Saint Louis à Menton, à bord de notre véhicule de service sérigraphié « GENDARMERIE ».
 </span> —</p>
       <p>— Présentons l’individu devant l’Officier de Police Judiciaire Territorialement Compétent de permanence du poste de la Police Aux Frontières de <span id="paf_ville_o3">Saint Louis à Menton</span> à <span id="paf_heure_o">17 heures et 10 minutes</span>. L’horaire de présentation étant différé eu égard au délai de route. —</p>
-
+		<p> <span id="conf_paf_text" style="white-space:pre-line; color:#000;"></span> </p>
+		
 		<div class="signzone">
         
         <div class="signcell">L’APJA</div>
@@ -996,21 +1009,21 @@ if (conducteur_genre === 'f') {
     setTxt('esi_nom3_o', esi_nom);
     setTxt('esi_prenom3_o', esi_prenom);
 
-    // Palpation & transport
-    setTxt('palp_genre_o', palp_genre==='f'?'féminin':'masculin');
-	// Accord complet de la phrase de palpation selon le sexe de l’ESI
-(() => {
-  const target = document.getElementById('palp_phrase_o');
-  if (!target) return;
+  // === PALPATION & TRANSPORT ===
+setTxt('palp_genre_o', 
+  palp_genre === 'f' ? 'féminin' :
+  palp_genre === 'm' ? 'masculin' :
+  palp_genre === 'impossible' ? 'impossible' : ''
+);
 
-  const agentGenre = palp_genre === 'f' ? "féminin" : "masculin";
+// === PALPATION & TRANSPORT ===
+setTxt('palp_genre_o', 
+  palp_genre === 'f' ? 'féminin' :
+  palp_genre === 'm' ? 'masculin' :
+  palp_genre === 'impossible' ? 'impossible' : ''
+);
 
-  if (esi_sexe === 'f') {
-    target.textContent = `Palpée par mesure de sécurité, par un personnel ${agentGenre}, elle n’est trouvée porteuse d’aucun objet dangereux pour autrui ou pour elle-même`;
-  } else {
-    target.textContent = `Palpé par mesure de sécurité, par un personnel ${agentGenre}, il n’est trouvé porteur d’aucun objet dangereux pour autrui ou pour lui-même`;
-  }
-})();
+
 
     // Phrase de transport selon le type choisi
 let phraseTransport = '';
@@ -1108,6 +1121,7 @@ if (esi_sexe === 'f') {
       sheet.style.margin = '30px auto';
       sheet.scrollIntoView({behavior:'smooth', block:'start'});
     }
+	majPalpation();
   }
   
  function openPrintPreview() {
@@ -1224,7 +1238,7 @@ function savePV() {
     'date_lettres','heure_lettres','esi_hconstat','veh_type','veh_marque',
     'veh_immat','veh_pays','conducteur_genre','lieu_controle','piece_id',
     'esi_nom','esi_prenom','esi_sexe','esi_dnaiss','esi_lnaiss','esi_nat',
-    'esi_langue','fpr','agdref','fichiers_nat','palp_genre','transport_type',
+    'esi_langue','fpr','agdref','fichiers_nat','palp_genre','objets_trouves','transport_type',
     'paf_ville','paf_heure'
   ];
 
@@ -1714,6 +1728,71 @@ document.getElementById('toggleOptions').addEventListener('click', () => {
   const menu = document.getElementById('optionsMenu');
   menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'flex' : 'none';
 });
+</script>
+<script>
+function majPalpation() {
+  const zonePalp = document.getElementById("palpation_text");
+  const zoneConf = document.getElementById("conf_paf_text");
+  if (!zonePalp) return;
+
+  const palpGenre = (document.getElementById("palp_genre")?.value || "").toLowerCase();
+  const esiSexe   = (document.getElementById("esi_sexe")?.value || "").toLowerCase();
+  const objets    = (document.getElementById("objets_trouves")?.value || "").trim();
+
+  let texte = "";
+  let texteConf = "";
+
+  if (palpGenre === "impossible") {
+    texte = "La palpation de sécurité n’a pas pu être réalisée sur place à défaut de personnel du même sexe.";
+  } 
+  else if (palpGenre === "m" || palpGenre === "f") {
+    const personnel = palpGenre === "m" ? "personnel masculin" : "personnel féminin";
+    const debut = esiSexe.startsWith("f") ? "Palpée" : "Palpé";
+    const pronom = esiSexe.startsWith("f") ? "elle" : "il";
+    const e = esiSexe.startsWith("f") ? "e" : "";
+    const se = esiSexe.startsWith("f") ? "se" : "";
+
+    if (!objets) {
+      texte = `${debut} par mesure de sécurité, par un ${personnel}, ${pronom} n’est trouvé${e} porteur${se} d’aucun objet dangereux pour autrui ou pour ${pronom === "elle" ? "elle-même" : "lui-même"}.`;
+    } 
+    else {
+      const liste = objets.split(/[,;]+/).map(x => x.trim()).filter(Boolean);
+      const pluriel = liste.length > 1;
+      const objetsTxt = liste.join(", ");
+      const motObjet = pluriel ? "objets" : "objet";
+      const suivants = pluriel ? "suivants" : "suivant";
+      const deDes = pluriel ? "des" : "de l’";
+      const ceCes = pluriel ? "Ces" : "Cet";
+      const ont = pluriel ? "sont" : "est";
+      const confisques = pluriel ? "confisqués" : "confisqué";
+      const confies = pluriel ? "confiés" : "confié";
+      const lesOuL = pluriel ? "Les" : "L’";
+
+      // Phrase principale
+      texte = `${debut} par mesure de sécurité, par un ${personnel}, ${pronom} est trouvé${e} porteur${se} ${deDes} ${motObjet} ${suivants} : ${objetsTxt}. `
+            + `${ceCes} ${motObjet} ${ont} ${confisques} pendant le transport.`;
+
+      // Phrase finale déplacée à la fin du PV
+      texteConf = `—  ${lesOuL} ${motObjet} ${confisques} ${ont} ${confies} au personnel de la Police aux Frontières. — `;
+    }
+  }
+
+  zonePalp.textContent = texte;
+  if (zoneConf) zoneConf.textContent = texteConf;
+}
+
+</script>
+<script>
+function formatDateNaissance(input) {
+  let v = input.value.replace(/\D/g, ""); // supprime tout sauf les chiffres
+  if (v.length >= 5) {
+    input.value = v.slice(0, 2) + "/" + v.slice(2, 4) + "/" + v.slice(4, 8);
+  } else if (v.length >= 3) {
+    input.value = v.slice(0, 2) + "/" + v.slice(2, 4);
+  } else {
+    input.value = v;
+  }
+}
 </script>
 
 </body>

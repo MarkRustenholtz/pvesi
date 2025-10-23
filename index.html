@@ -404,7 +404,7 @@ fieldset textarea {
           </div>
         </div>
 		<label>Marque du véhicule/Compagnie du train</label>
-<input id="veh_marque"placeholder="ex:Mercedes,Renault/Train ex: Trenitalia" />
+<input id="veh_marque"placeholder="ex:Mercedes,Renault/Train ex: Tranitalia" />
 
         <label>Immatriculation / n° de train</label>
         <input id="veh_immat" 
@@ -415,7 +415,7 @@ fieldset textarea {
        autocapitalize="characters" 
        spellcheck="false">
 		<label>Pays d’immatriculation</label>
-<input id="veh_pays" placeholder="ex: en France" />
+<input id="veh_pays" placeholder="ex: en Italie" />
 <label>Conducteur / Conductrice</label>
 <select id="conducteur_genre">
   <option value="m">Conducteur</option>
@@ -881,7 +881,7 @@ const heureL_txt = heureEnLettres(heureL);
 if (type === "train") {
   // 1️⃣ Phrase de constatation
   if (constat) {
-    constat.textContent = `— À ${hc_txt}, nous constatons la présence d’un train ${veh_marque || ""} immatriculé en ${veh_pays || ""} sous le numéro ${veh_immat || ""}, en circulation et arrivant en gare dans notre direction. —`;
+    constat.textContent = `— À ${hc_txt}, nous constatons la présence d’un train ${veh_marque || ""} immatriculé ${veh_pays || ""} sous le numéro ${veh_immat || ""}, en circulation et arrivant en gare dans notre direction. —`;
   }
 
   // 2️⃣ Phrase de contact conducteur/conductrice
@@ -908,7 +908,7 @@ if (type === "train") {
 
 
   // === 🔹 CAS BUS / VL / PL / AUTRE ===
-  const texteConstatStd = `— À ${hc_txt}, nous constatons la présence d’un ${type === "vl" ? "véhicule léger" : type === "pl" ? "poids lourd" : type === "bus" ? "autobus" : "véhicule"} ${veh_marque || ""} immatriculé ${veh_pays ? "en " + veh_pays : ""} sous le numéro ${veh_immat || ""} en circulation et arrivant dans notre direction. —`;
+  const texteConstatStd = `— À ${hc_txt}, nous constatons la présence d’un ${type === "vl" ? "véhicule léger" : type === "pl" ? "poids lourd" : type === "bus" ? "autobus" : "véhicule"} ${veh_marque || ""} immatriculé ${veh_pays ? " " + veh_pays : ""} sous le numéro ${veh_immat || ""} en circulation et arrivant dans notre direction. —`;
   if (constat) constat.textContent = texteConstatStd;
 
   // 🧩 Ici on garde les spans dynamiques pour les accords de genre
@@ -1715,5 +1715,3 @@ document.getElementById('toggleOptions').addEventListener('click', () => {
 
 </body>
 </html>
-
-

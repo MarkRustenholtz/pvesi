@@ -323,6 +323,30 @@ fieldset textarea {
   color: white;
 }
 
+#scrollTopBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  background: linear-gradient(180deg, #0d6efd, #003366);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  font-size: 1.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.25);
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+#scrollTopBtn:hover {
+  transform: scale(1.08);
+  background: linear-gradient(180deg, #0055cc, #002b66);
+}
 
 
 
@@ -719,7 +743,11 @@ Transportons l’individu sans contrainte ni entraves au poste de la Police Aux 
     <div id="listePVcontenu" style="background:white;padding:10px;border-radius:10px;box-shadow:0 2px 5px rgba(0,0,0,0.2);"></div>
     <button class="back-btn" onclick="fermerMesPV()">⬅ Retour au PV</button>
   </div>
-  <a href="#" class="back-btn" onclick="backHome()">⬅ Retour</a>
+  <!-- 🔼 Bouton remonter en haut -->
+<button id="scrollTopBtn" title="Remonter en haut">
+  <i class="fa-solid fa-arrow-up"></i>
+</button>
+
 </section>
 
 
@@ -1237,7 +1265,7 @@ if (esi_sexe === 'f') {
             width: 60mm;
             margin: 0 0 8mm 0;
           }
-          .title-left { font-weight: bold; }
+         /* .title-left { font-weight: bold; }
           .num-pv { margin-top: 8mm; font-style: italic; }
           .signzone {
             margin-top: 16mm;
@@ -1248,7 +1276,26 @@ if (esi_sexe === 'f') {
             min-height: 28mm;
             border-top: 1px solid #aaa;
             padding-top: 4mm;
-          }
+          } */
+		  /* 🖋️ Zone des signatures */
+.signzone {
+  margin-top: 16mm;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* deux colonnes */
+  gap: 20mm; /* ⬅️ espace horizontal entre les deux signatures */
+  width: 90%; /* pour recentrer un peu la zone */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.signcell {
+  min-height: 28mm;
+  border-top: 1px solid #000;
+  padding-top: 4mm;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.95em;
+}
           @media print {
             body {
               margin: 0;
@@ -1846,6 +1893,18 @@ function formatDateNaissance(input) {
     input.value = v;
   }
 }
+</script>
+<script>
+// Fonction pour remonter en haut de la page
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'  // 👈 défilement fluide
+  });
+}
+
+// Détecte le clic sur le bouton
+document.getElementById("scrollTopBtn").addEventListener("click", scrollToTop);
 </script>
 
 </body>

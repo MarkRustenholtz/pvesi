@@ -415,9 +415,9 @@ fieldset textarea {
        autocapitalize="characters" 
        spellcheck="false">
 
-		<label>Pays d’immatriculation</label>
-<input id="veh_pays" placeholder="ex: en Italie" 
-oninput="this.value = this.value.charAt(0).toLowerCase() + this.value.slice(1)">
+		<label for="veh_pays">Pays d’immatriculation</label>
+<input id="veh_pays" placeholder="ex: en Italie"
+oninput="if(this.value) this.value = this.value.charAt(0).toLowerCase() + this.value.slice(1)">
 
 <label>Conducteur / Conductrice</label>
 <select id="conducteur_genre">

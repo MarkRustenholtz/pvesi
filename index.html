@@ -348,11 +348,12 @@ fieldset textarea {
   background: linear-gradient(180deg, #0055cc, #002b66);
 }
 
-/* === Bouton Fermer toujours visible (haut gauche) === */
 .btn-fermer {
-  position: fixed;          /* 🔹 reste en place même quand on scrolle */
-  top: 12px;                /* 🔹 distance depuis le haut de l’écran */
-  left: 12px;               /* 🔹 distance depuis le bord gauche */
+  position: relative;       /* ancré dans le flux du PV */
+  float: left;              /* 🔹 colle le bouton à gauche du PV */
+  margin-top: 10px;         /* 🔹 espace avec le haut */
+  margin-left: 10px;        /* 🔹 léger retrait du bord gauche */
+  margin-bottom: 15px;      /* 🔹 espace sous le bouton avant le PV */
   background: #b00000;
   color: #fff;
   border: none;
@@ -360,16 +361,13 @@ fieldset textarea {
   padding: 8px 16px;
   font-weight: bold;
   cursor: pointer;
+  z-index: 10;              /* passe au-dessus du contenu du PV */
   box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-  z-index: 1000;            /* 🔹 au-dessus de tout le contenu du PV */
-  transition: opacity 0.3s ease, transform 0.2s ease;
 }
-
-/* effet visuel au survol */
 .btn-fermer:hover {
   background: #d00000;
-  transform: scale(1.05);
 }
+
 
 /* petit effet fondu à l’apparition/disparition */
 .btn-fermer[style*="display: none"] {
@@ -657,7 +655,7 @@ autocapitalize="off"
  <button id="closePVBtn" class="btn-fermer" onclick="fermerPV()" style="display:none;">❌ Fermer</button>
 
 
-   <h2>Procès-verbal généré</h2>
+   <h2>Procès-verbal généré:</h2>
    <div id="sheet">
     <div class="col-g">
       <div class="title-left">MINISTERE DE L'INTERIEUR</div>
@@ -1981,4 +1979,3 @@ function fermerPV() {
 
 </body>
 </html>
-

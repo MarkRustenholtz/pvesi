@@ -327,8 +327,8 @@ fieldset textarea {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  z-index: 999;
-  background: linear-gradient(180deg, #0d6efd, #003366);
+  z-index: 9999;                         /* toujours au-dessus de tout */
+  background: linear-gradient(180deg,#0d6efd,#003366);
   color: white;
   border: none;
   border-radius: 50%;
@@ -338,14 +338,13 @@ fieldset textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.25);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
   cursor: pointer;
   transition: 0.2s ease;
 }
-
 #scrollTopBtn:hover {
   transform: scale(1.08);
-  background: linear-gradient(180deg, #0055cc, #002b66);
+  background: linear-gradient(180deg,#0055cc,#002b66);
 }
 
 
@@ -743,13 +742,14 @@ Transportons l’individu sans contrainte ni entraves au poste de la Police Aux 
     <div id="listePVcontenu" style="background:white;padding:10px;border-radius:10px;box-shadow:0 2px 5px rgba(0,0,0,0.2);"></div>
     <button class="back-btn" onclick="fermerMesPV()">⬅ Retour au PV</button>
   </div>
-  <!-- 🔼 Bouton remonter en haut -->
-<button id="scrollTopBtn" title="Remonter en haut">
-  <i class="fa-solid fa-arrow-up"></i>
-</button>
+  
 
 </section>
 
+<!-- 🔼 Bouton remonter en haut -->
+<button id="scrollTopBtn" title="Remonter en haut">
+  <i class="fa-solid fa-arrow-up"></i>
+</button>
 
 <script>
 function showSection(id){
@@ -1893,13 +1893,17 @@ function formatDateNaissance(input) {
     input.value = v;
   }
 }
-</script><script>
+</script>
+
+<script>
 document.getElementById("scrollTopBtn").addEventListener("click", () => {
+  // Essaie d'abord de scroller la zone PV (#sheet)
   const sheet = document.getElementById("sheet");
-  if (sheet) {
-    sheet.scrollTo({ top: 0, behavior: "smooth" });  // 👈 remonte le bon conteneur
+  if (sheet && sheet.scrollTop !== undefined) {
+    sheet.scrollTo({ top: 0, behavior: "smooth" });
   } else {
-    window.scrollTo({ top: 0, behavior: "smooth" }); // au cas où
+    // sinon, scrolle la page entière
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 });
 </script>

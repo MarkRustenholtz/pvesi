@@ -1893,18 +1893,15 @@ function formatDateNaissance(input) {
     input.value = v;
   }
 }
-</script>
-<script>
-// Fonction pour remonter en haut de la page
-function scrollToTop() {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'  // 👈 défilement fluide
-  });
-}
-
-// Détecte le clic sur le bouton
-document.getElementById("scrollTopBtn").addEventListener("click", scrollToTop);
+</script><script>
+document.getElementById("scrollTopBtn").addEventListener("click", () => {
+  const sheet = document.getElementById("sheet");
+  if (sheet) {
+    sheet.scrollTo({ top: 0, behavior: "smooth" });  // 👈 remonte le bon conteneur
+  } else {
+    window.scrollTo({ top: 0, behavior: "smooth" }); // au cas où
+  }
+});
 </script>
 
 </body>

@@ -348,19 +348,34 @@ fieldset textarea {
   background: linear-gradient(180deg, #0055cc, #002b66);
 }
 
+/* === Bouton Fermer toujours visible (haut gauche) === */
 .btn-fermer {
+  position: fixed;          /* 🔹 reste en place même quand on scrolle */
+  top: 12px;                /* 🔹 distance depuis le haut de l’écran */
+  left: 12px;               /* 🔹 distance depuis le bord gauche */
   background: #b00000;
   color: #fff;
   border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  cursor: pointer;
+  border-radius: 6px;
+  padding: 8px 16px;
   font-weight: bold;
-  margin-bottom: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  z-index: 1000;            /* 🔹 au-dessus de tout le contenu du PV */
+  transition: opacity 0.3s ease, transform 0.2s ease;
 }
+
+/* effet visuel au survol */
 .btn-fermer:hover {
   background: #d00000;
+  transform: scale(1.05);
 }
+
+/* petit effet fondu à l’apparition/disparition */
+.btn-fermer[style*="display: none"] {
+  opacity: 0;
+}
+
 
 
 </style>
@@ -1966,3 +1981,4 @@ function fermerPV() {
 
 </body>
 </html>
+

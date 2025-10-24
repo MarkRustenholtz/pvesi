@@ -327,7 +327,7 @@ fieldset textarea {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  z-index: 9999;
+  z-index: 100;
   background: linear-gradient(180deg, #0d6efd, #003366);
   color: white;
   border: none;
@@ -335,14 +335,20 @@ fieldset textarea {
   width: 56px;
   height: 56px;
   font-size: 1.4em;
-  display: flex;           /* restera "none" tant qu'on ne l'affiche pas en JS */
+  display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.25);
   cursor: pointer;
   transition: 0.2s ease;
 }
-#scrollTopBtn:hover { transform: scale(1.08); }
+
+#scrollTopBtn:hover {
+  transform: scale(1.08);
+  background: linear-gradient(180deg, #0055cc, #002b66);
+}
+
+
 
 </style>
 </head>
@@ -737,14 +743,13 @@ Transportons l’individu sans contrainte ni entraves au poste de la Police Aux 
     <div id="listePVcontenu" style="background:white;padding:10px;border-radius:10px;box-shadow:0 2px 5px rgba(0,0,0,0.2);"></div>
     <button class="back-btn" onclick="fermerMesPV()">⬅ Retour au PV</button>
   </div>
-  
-
-</section>
-
-<!-- 🔼 Bouton remonter en haut -->
+  <!-- 🔼 Bouton remonter en haut -->
 <button id="scrollTopBtn" title="Remonter en haut">
   <i class="fa-solid fa-arrow-up"></i>
 </button>
+
+</section>
+
 
 <script>
 function showSection(id){
@@ -1262,7 +1267,7 @@ if (esi_sexe === 'f') {
           }
           .title-left { font-weight: bold; }
           .num-pv { margin-top: 8mm; font-style: italic; }
-        /*  .signzone {
+         /* .signzone {
             margin-top: 16mm;
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1272,6 +1277,7 @@ if (esi_sexe === 'f') {
             border-top: 1px solid #aaa;
             padding-top: 4mm;
           } */
+		  
 		  /* 🖋️ Zone des signatures */
 .signzone {
   margin-top: 16mm;
@@ -1890,25 +1896,17 @@ function formatDateNaissance(input) {
 }
 </script>
 <script>
-document.getElementById("scrollTopBtn").addEventListener("click", () => {
-  const menuBtn = document.getElementById("toggleOptions");   // ton bouton ⚙️ MENU
-  const optionsSection = document.getElementById("options");  // section entière
+// Fonction pour remonter en haut de la page
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'  // 👈 défilement fluide
+  });
+}
 
-  // Si le bouton MENU existe → on y remonte
-  if (menuBtn) {
-    menuBtn.scrollIntoView({ behavior: "smooth", block: "center" });
-  }
-  // sinon, on vise le haut de la section options
-  else if (optionsSection) {
-    optionsSection.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-  // dernier recours : remonter toute la page
-  else {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-});
+// Détecte le clic sur le bouton
+document.getElementById("scrollTopBtn").addEventListener("click", scrollToTop);
 </script>
 
 </body>
 </html>
-

@@ -348,6 +348,19 @@ fieldset textarea {
   background: linear-gradient(180deg, #0055cc, #002b66);
 }
 
+.btn-fermer {
+  background: #b00000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.btn-fermer:hover {
+  background: #d00000;
+}
 
 
 </style>
@@ -626,6 +639,9 @@ autocapitalize="off"
   <button onclick="nouveauPV()"><i class="fa-solid fa-plus"></i> Nouveau PV</button>
 </div>
   </div>
+ <button id="closePVBtn" class="btn-fermer" onclick="fermerPV()" style="display:none;">❌ Fermer</button>
+
+
    <h2>Procès-verbal généré</h2>
    <div id="sheet">
     <div class="col-g">
@@ -744,11 +760,12 @@ Transportons l’individu sans contrainte ni entraves au poste de la Police Aux 
     <button class="back-btn" onclick="fermerMesPV()">⬅ Retour au PV</button>
   </div>
   <!-- 🔼 Bouton remonter en haut -->
-<button id="scrollTopBtn" title="Remonter en haut">
+<button id="scrollTopBtn" title="Remonter en haut" style="display:none;">
   <i class="fa-solid fa-arrow-up"></i>
 </button>
 
 </section>
+
 
 
 <script>
@@ -1196,15 +1213,23 @@ if (esi_sexe === 'f') {
     // Scroll vers la feuille pour aperçu
     document.getElementById('sheet').scrollIntoView({behavior:'smooth',block:'start'});
   }*/
-   const sheet = document.getElementById('sheet');
-    if(sheet){
-      sheet.style.display = 'grid';
-      sheet.style.margin = '30px auto';
-      sheet.scrollIntoView({behavior:'smooth', block:'start'});
-    }
-	majPalpation();
-  }
-  
+  const sheet = document.getElementById('sheet');
+if (sheet) {
+  sheet.style.display = 'grid';
+  sheet.style.margin = '30px auto';
+  sheet.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ✅ Affiche les boutons liés à l’affichage du PV
+const closeBtn = document.getElementById("closePVBtn");
+if (closeBtn) closeBtn.style.display = "inline-block";
+
+const scrollBtn = document.getElementById("scrollTopBtn");
+if (scrollBtn) scrollBtn.style.display = "block";
+
+majPalpation();
+}
+
  function openPrintPreview() {
   generatePV();
 
@@ -1519,8 +1544,21 @@ function ouvrirMesPV() {
 function fermerMesPV() {
   const listePV = document.getElementById('listePV');
   const sheet = document.getElementById('sheet');
+  const closeBtn = document.getElementById('closePVBtn'); // ✅ ton bouton Fermer
+
+  // 🔹 On cache la liste des PV
   if (listePV) listePV.style.display = 'none';
-  if (sheet) sheet.style.display = 'block';
+
+  // 🔹 On réaffiche le PV avec sa mise en page d’origine
+  if (sheet) {
+    sheet.style.display = 'grid'; // ✅ garde la mise en forme correcte
+    sheet.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // 🔹 On rend visible le bouton Fermer
+  if (closeBtn) closeBtn.style.display = 'inline-block';
+  const scrollBtn = document.getElementById("scrollTopBtn");
+if (scrollBtn) scrollBtn.style.display = "block"; // ✅ réaffiche quand retour PV
 }
 
 
@@ -1907,6 +1945,24 @@ function scrollToTop() {
 // Détecte le clic sur le bouton
 document.getElementById("scrollTopBtn").addEventListener("click", scrollToTop);
 </script>
+<script>
+function fermerPV() {
+  const sheet = document.getElementById("sheet");
+  if (sheet) sheet.style.display = "none";
+
+  const closeBtn = document.getElementById("closePVBtn");
+  if (closeBtn) closeBtn.style.display = "none";
+  
+   const scrollBtn = document.getElementById("scrollTopBtn");
+  if (scrollBtn) scrollBtn.style.display = "none"; // 👈 cache le bouton quand on ferme le PV
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+</script>
+
+
+
+
 
 </body>
 </html>

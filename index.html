@@ -1889,76 +1889,24 @@ function formatDateNaissance(input) {
   }
 }
 </script>
-
 <script>
-(function(){
-  const btn    = document.getElementById('scrollTopBtn');
-  const sheet  = document.getElementById('sheet');
-  const sectOptions = document.getElementById('options');
+document.getElementById("scrollTopBtn").addEventListener("click", () => {
+  const menuBtn = document.getElementById("toggleOptions");   // ton bouton ⚙️ MENU
+  const optionsSection = document.getElementById("options");  // section entière
 
-  // Trouve le conteneur qui scrolle (sheet si visible et scrollable, sinon la page)
-  function currentScrollContainer() {
-    if (sheet && isVisible(sheet) && sheet.scrollHeight > sheet.clientHeight) return sheet;
-    return null; // => on utilisera la page (window)
+  // Si le bouton MENU existe → on y remonte
+  if (menuBtn) {
+    menuBtn.scrollIntoView({ behavior: "smooth", block: "center" });
   }
-
-  function isVisible(el){
-    return !!(el && el.offsetParent !== null);
+  // sinon, on vise le haut de la section options
+  else if (optionsSection) {
+    optionsSection.scrollIntoView({ behavior: "smooth", block: "start" });
   }
-
-  // Afficher / cacher le bouton intelligemment
-  function updateScrollTopVisibility(){
-    // bouton visible seulement si la section Options est visible
-    const optionsVisible = isVisible(sectOptions);
-    if (!optionsVisible) {
-      btn.style.display = 'none';
-      return;
-    }
-
-    const cont = currentScrollContainer();
-    let y = 0;
-    if (cont) {
-      y = cont.scrollTop;
-    } else {
-      y = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    }
-
-    btn.style.display = (y > 150) ? 'flex' : 'none';
+  // dernier recours : remonter toute la page
+  else {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
-
-  // Clic = remonter en haut du bon conteneur
-  btn.addEventListener('click', () => {
-    const cont = currentScrollContainer();
-    if (cont) {
-      cont.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  });
-
-  // Écoute les scrolls possibles
-  window.addEventListener('scroll', updateScrollTopVisibility, { passive: true });
-  if (sheet) sheet.addEventListener('scroll', updateScrollTopVisibility, { passive: true });
-
-  // Met à jour à chaque changement d’affichage de section
-  const origShowSection = window.showSection;
-  window.showSection = function(id){
-    if (typeof origShowSection === 'function') origShowSection(id);
-    // Après bascule de section, recalculer la visibilité
-    setTimeout(updateScrollTopVisibility, 0);
-  };
-
-  // Init au chargement + après éventuelle génération PV
-  document.addEventListener('DOMContentLoaded', updateScrollTopVisibility);
-  if (typeof window.generatePV === 'function') {
-    const origGen = window.generatePV;
-    window.generatePV = function(){
-      const r = origGen.apply(this, arguments);
-      setTimeout(updateScrollTopVisibility, 0);
-      return r;
-    };
-  }
-})();
+});
 </script>
 
 </body>

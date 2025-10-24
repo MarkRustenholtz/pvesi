@@ -327,27 +327,22 @@ fieldset textarea {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  z-index: 9999;                         /* toujours au-dessus de tout */
-  background: linear-gradient(180deg,#0d6efd,#003366);
+  z-index: 9999;
+  background: linear-gradient(180deg, #0d6efd, #003366);
   color: white;
   border: none;
   border-radius: 50%;
   width: 56px;
   height: 56px;
   font-size: 1.4em;
-  display: flex;
+  display: flex;           /* restera "none" tant qu'on ne l'affiche pas en JS */
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 6px rgba(0,0,0,0.3);
   cursor: pointer;
   transition: 0.2s ease;
 }
-#scrollTopBtn:hover {
-  transform: scale(1.08);
-  background: linear-gradient(180deg,#0055cc,#002b66);
-}
-
-
+#scrollTopBtn:hover { transform: scale(1.08); }
 
 </style>
 </head>
@@ -1896,16 +1891,74 @@ function formatDateNaissance(input) {
 </script>
 
 <script>
-document.getElementById("scrollTopBtn").addEventListener("click", () => {
-  // Essaie d'abord de scroller la zone PV (#sheet)
-  const sheet = document.getElementById("sheet");
-  if (sheet && sheet.scrollTop !== undefined) {
-    sheet.scrollTo({ top: 0, behavior: "smooth" });
-  } else {
-    // sinon, scrolle la page entière
-    window.scrollTo({ top: 0, behavior: "smooth" });
+(function(){
+  const btn    = document.getElementById('scrollTopBtn');
+  const sheet  = document.getElementById('sheet');
+  const sectOptions = document.getElementById('options');
+
+  // Trouve le conteneur qui scrolle (sheet si visible et scrollable, sinon la page)
+  function currentScrollContainer() {
+    if (sheet && isVisible(sheet) && sheet.scrollHeight > sheet.clientHeight) return sheet;
+    return null; // => on utilisera la page (window)
   }
-});
+
+  function isVisible(el){
+    return !!(el && el.offsetParent !== null);
+  }
+
+  // Afficher / cacher le bouton intelligemment
+  function updateScrollTopVisibility(){
+    // bouton visible seulement si la section Options est visible
+    const optionsVisible = isVisible(sectOptions);
+    if (!optionsVisible) {
+      btn.style.display = 'none';
+      return;
+    }
+
+    const cont = currentScrollContainer();
+    let y = 0;
+    if (cont) {
+      y = cont.scrollTop;
+    } else {
+      y = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    }
+
+    btn.style.display = (y > 150) ? 'flex' : 'none';
+  }
+
+  // Clic = remonter en haut du bon conteneur
+  btn.addEventListener('click', () => {
+    const cont = currentScrollContainer();
+    if (cont) {
+      cont.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+
+  // Écoute les scrolls possibles
+  window.addEventListener('scroll', updateScrollTopVisibility, { passive: true });
+  if (sheet) sheet.addEventListener('scroll', updateScrollTopVisibility, { passive: true });
+
+  // Met à jour à chaque changement d’affichage de section
+  const origShowSection = window.showSection;
+  window.showSection = function(id){
+    if (typeof origShowSection === 'function') origShowSection(id);
+    // Après bascule de section, recalculer la visibilité
+    setTimeout(updateScrollTopVisibility, 0);
+  };
+
+  // Init au chargement + après éventuelle génération PV
+  document.addEventListener('DOMContentLoaded', updateScrollTopVisibility);
+  if (typeof window.generatePV === 'function') {
+    const origGen = window.generatePV;
+    window.generatePV = function(){
+      const r = origGen.apply(this, arguments);
+      setTimeout(updateScrollTopVisibility, 0);
+      return r;
+    };
+  }
+})();
 </script>
 
 </body>

@@ -1899,14 +1899,29 @@ function majPalpation() {
   } 
   else if (palpGenre === "m" || palpGenre === "f") {
     const personnel = palpGenre === "m" ? "personnel masculin" : "personnel féminin";
-    const debut = esiSexe.startsWith("f") ? "Palpée" : "Palpé";
-    const pronom = esiSexe.startsWith("f") ? "elle" : "il";
-    const e = esiSexe.startsWith("f") ? "e" : "";
-    const se = esiSexe.startsWith("f") ? "se" : "";
-     // mot "porteur/porteuse" bien géré :
-const porteur = genre === "F" ? "porteuse" : "porteur";
+
+    // Gestion sécurisée du genre de l’ESI
+    let debut, pronom, e, porteur;
+    if (esiSexe.startsWith("f")) {
+      debut = "Palpée";
+      pronom = "elle";
+      e = "e";
+      porteur = "porteuse";
+    } else if (esiSexe.startsWith("m")) {
+      debut = "Palpé";
+      pronom = "il";
+      e = "";
+      porteur = "porteur";
+    } else {
+      // Cas neutre (si sexe non renseigné) 
+      debut = "Palpé(e)";
+      pronom = "la personne";
+      e = "";
+      porteur = "porteuse/porteur";
+    }
+
     if (!objets) {
-      texte = `${debut} par mesure de sécurité, par un ${personnel}, ${pronom} n’est trouvé${e} ${porteur} d’aucun objet dangereux pour autrui ou pour ${pronom === "elle" ? "elle-même" : "lui-même"}.`;
+      texte = `${debut} par mesure de sécurité, par un ${personnel}, ${pronom} n’est trouvé${e} ${porteur} d’aucun objet dangereux pour autrui ou pour ${pronom === "elle" ? "elle-même" : pronom === "il" ? "lui-même" : "elle/lui-même"}.`;
     } 
     else {
       const liste = objets.split(/[,;]+/).map(x => x.trim()).filter(Boolean);
@@ -1926,13 +1941,14 @@ const porteur = genre === "F" ? "porteuse" : "porteur";
             + `${ceCes} ${motObjet} ${ont} ${confisques} pendant le transport.`;
 
       // Phrase finale déplacée à la fin du PV
-      texteConf = `—  ${lesOuL} ${motObjet} ${confisques} ${ont} ${confies} au personnel de la Police aux Frontières. — `;
+      texteConf = `— ${lesOuL} ${motObjet} ${confisques} ${ont} ${confies} au personnel de la Police aux Frontières. — `;
     }
   }
 
   zonePalp.textContent = texte;
   if (zoneConf) zoneConf.textContent = texteConf;
 }
+
 
 </script>
 <script>

@@ -1903,9 +1903,10 @@ function majPalpation() {
     const pronom = esiSexe.startsWith("f") ? "elle" : "il";
     const e = esiSexe.startsWith("f") ? "e" : "";
     const se = esiSexe.startsWith("f") ? "se" : "";
-
+     // mot "porteur/porteuse" bien géré :
+const porteur = genre === "F" ? "porteuse" : "porteur";
     if (!objets) {
-      texte = `${debut} par mesure de sécurité, par un ${personnel}, ${pronom} n’est trouvé${e} porteur${se} d’aucun objet dangereux pour autrui ou pour ${pronom === "elle" ? "elle-même" : "lui-même"}.`;
+      texte = `${debut} par mesure de sécurité, par un ${personnel}, ${pronom} n’est trouvé${e} ${porteur} d’aucun objet dangereux pour autrui ou pour ${pronom === "elle" ? "elle-même" : "lui-même"}.`;
     } 
     else {
       const liste = objets.split(/[,;]+/).map(x => x.trim()).filter(Boolean);
@@ -1921,7 +1922,7 @@ function majPalpation() {
       const lesOuL = pluriel ? "Les" : "L’";
 
       // Phrase principale
-      texte = `${debut} par mesure de sécurité, par un ${personnel}, ${pronom} est trouvé${e} porteur${se} ${deDes} ${motObjet} ${suivants} : ${objetsTxt}. `
+      texte = `${debut} par mesure de sécurité, par un ${personnel}, ${pronom} est trouvé${e} ${porteur} ${deDes} ${motObjet} ${suivants} : ${objetsTxt}. `
             + `${ceCes} ${motObjet} ${ont} ${confisques} pendant le transport.`;
 
       // Phrase finale déplacée à la fin du PV

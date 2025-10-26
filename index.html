@@ -1654,9 +1654,14 @@ function nouveauPV() {
 </script>
 <script>
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js')
-    .then(() => console.log('✅ Service Worker PV ESI enregistré !'))
-    .catch(err => console.error('❌ Erreur SW:', err));
+  const ua = navigator.userAgent || '';
+  if (ua.includes('Android 7') || ua.includes('Android 6')) {
+    console.log("⚙️ Service Worker désactivé pour compatibilité Android 7");
+  } else {
+    navigator.serviceWorker.register('sw.js')
+      .then(() => console.log('✅ Service Worker PV ESI enregistré !'))
+      .catch(err => console.error('❌ Erreur SW:', err));
+  }
 }
 </script>
 <script>

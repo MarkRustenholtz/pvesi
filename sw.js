@@ -1,5 +1,5 @@
 // Nom du cache
-const CACHE_NAME = 'pv-esi-v34';
+const CACHE_NAME = 'pv-esi-v35';
 
 // Fichiers à mettre en cache
 const FILES_TO_CACHE = [

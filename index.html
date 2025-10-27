@@ -186,7 +186,7 @@ input, select, textarea {
   margin: 0 0 8mm 0;
 }
 
-.signzone {
+/*.signzone {
   margin-top: 16mm;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -196,6 +196,25 @@ input, select, textarea {
   min-height: 28mm;
   border-top: 1px solid #aaa;
   padding-top: 4mm;
+}*/
+ /* 🖋️ Zone des signatures */
+.signzone {
+  margin-top: 16mm;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* deux colonnes */
+  gap: 20mm; /* ⬅️ espace horizontal entre les deux signatures */
+  width: 90%; /* pour recentrer un peu la zone */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.signcell {
+  min-height: 28mm;
+  border-top: 1px solid #000;
+  padding-top: 4mm;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.95em;
 }
 
 /* Impression */
@@ -374,7 +393,10 @@ fieldset textarea {
   opacity: 0;
 }
 
-
+p, div, fieldset {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
 
 </style>
 </head>
@@ -646,6 +668,8 @@ autocapitalize="off"
 <div id="optionsMenu" style="display:none;flex-direction:column;gap:8px;margin-top:10px;">
   <button onclick="generatePV()"><i class="fa-solid fa-file-lines"></i> Générer le PV</button>
   <button class="secondary" onclick="openPrintPreview()"><i class="fa-solid fa-print"></i> Imprimer / PDF</button>
+  <button class="secondary" onclick="genererPDF()">
+  <i class="fa-solid fa-file-pdf"></i> Enregistrer en PDF</button>
   <button id="sendMailBtn"><i class="fa-solid fa-envelope"></i> Envoyer par mail</button>
   <button onclick="sauvegarderPV()"><i class="fa-solid fa-floppy-disk"></i> Sauvegarder le PV</button>
   <button onclick="ouvrirMesPV()"><i class="fa-solid fa-folder-open"></i> Mes PV sauvegardés</button>
@@ -1993,6 +2017,51 @@ function fermerPV() {
 
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
+</script>
+<!-- Génération PDF universelle -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+function genererPDF() {
+  // Regénère le PV avant export
+  if (typeof generatePV === "function") generatePV();
+
+
+  const sheet = document.getElementById('sheet');
+  if (!sheet) {
+    alert("Erreur : PV non trouvé.");
+    return;
+  }
+
+   // === Nom ESI ===
+  const nom = (document.getElementById('esi_nom')?.value || "").trim();
+  const prenom = (document.getElementById('esi_prenom')?.value || "").trim();
+
+  // === Date du jour ===
+  const d = new Date();
+  const jour = String(d.getDate()).padStart(2, '0');
+  const mois = String(d.getMonth() + 1).padStart(2, '0');
+  const annee = d.getFullYear();
+  const dateStr = `${jour}-${mois}-${annee}`;
+
+  // === Nom dynamique ===
+  let filename = "PV_Interpellation.pdf";
+  if (nom) {
+    filename = `PV_${nom}${prenom ? "_" + prenom : ""}_${dateStr}.pdf`;
+  }
+
+
+  const opt = {
+    margin: [ 10, 0, 10, 0],
+    filename: filename, // 🔹 ici le nom dynamique
+    image: { type: 'jpeg', quality: 1 },
+    html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', precision: 12 },
+    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+  };
+
+  html2pdf().set(opt).from(sheet).save();
+}
+
 </script>
 
 

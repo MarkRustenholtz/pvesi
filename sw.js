@@ -1,5 +1,5 @@
 // Nom du cache
-const CACHE_NAME = 'pv-esi-v43';
+const CACHE_NAME = 'pv-esi-v44';
 
 // Fichiers à mettre en cache
 const FILES_TO_CACHE = [
@@ -37,6 +37,7 @@ self.addEventListener('fetch', event => {
     })
   );
 });
+
 
 
 
